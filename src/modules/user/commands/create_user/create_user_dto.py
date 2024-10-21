@@ -1,10 +1,6 @@
-class CreateUserDTO:
-    def __init__(self, username: str, password: str, email: str):
-        self.username = username
-        self.password = password
-        self.email = email
+from src.modules.shared.controllers.base_dto import BaseDTO
 
 
-class CreateUserResponseDTO:
-    def __init__(self, user_id: int):
-        self.user_id = user_id
+class CreateUserDTO(BaseDTO):
+    email: str
+    password: str
