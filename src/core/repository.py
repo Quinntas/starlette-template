@@ -23,3 +23,9 @@ class Repository:
             if result:
                 return model(**dict(result))
             return None
+
+    async def select_all(self, model: Type[T], query: str, params: tuple) -> list[T]:
+        async with self.database.cursor() as cursor:
+            await cursor.execute(query, params)
+            result = await cursor.fetchall()
+            return [model(**dict(row)) for row in result]

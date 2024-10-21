@@ -8,3 +8,4 @@ setuptools~=65.5.0
 uvicorn~=0.32.0
 aiopg
 pydantic
+redis
