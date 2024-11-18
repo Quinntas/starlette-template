@@ -1,14 +1,18 @@
 from typing import Any
 
-import redis
+import aioredis
 
 
 class Cache:
     def __init__(self, host: str, port: int):
-        self.cache = redis.Redis(host=host, port=port, decode_responses=True)
+        self.client = aioredis.from_url(
+            f"redis://{host}:{port}", decode_responses=False
+        )
 
-    def set(self, key: str, value: Any, expires_in: int = 3600):
-        self.cache.set(key, value, ex=expires_in)
+    async def set(
+            self, key: str, value: str | int | float | bytes, expires_in: int = 3600
+    ):
+        await self.client.set(key, value, ex=expires_in)
 
-    def get(self, key: str) -> Any:
-        return self.cache.get(key)
+    async def get(self, key: str) -> Any:
+        return await self.client.get(key)
